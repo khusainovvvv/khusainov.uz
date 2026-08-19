@@ -20,7 +20,7 @@
     --spring:cubic-bezier(.22,1.4,.36,1);
   }
   *{ box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
-  html,body{ height:100%; }
+  html,body{ height:100%; overflow-x:hidden; max-width:100%; }
   body{
     background:#0b0e1a;
     color:var(--text-0);
@@ -141,7 +141,8 @@
 
   .hero{
     position:relative;
-    padding:38px 26px 30px;
+    overflow:hidden;
+    padding:42px 26px 32px;
     border-radius:32px;
     background:linear-gradient(180deg, var(--glass-strong), var(--glass));
     backdrop-filter:blur(28px) saturate(180%);
@@ -151,7 +152,6 @@
     text-align:center;
     opacity:0; transform:scale(0.92) translateY(18px);
     animation:popIn .8s var(--spring) 1.72s forwards;
-    transform-style:preserve-3d;
     will-change:transform;
   }
   .hero::before{
@@ -162,19 +162,19 @@
   }
   .hero::after, .group::after{
     content:'';
-    position:absolute; top:0; bottom:0; left:0;
-    width:60%;
+    position:absolute; inset:0;
     border-radius:inherit;
-    background:linear-gradient(100deg, transparent, rgba(255,255,255,0.16), transparent);
+    background-image:linear-gradient(100deg, transparent 30%, rgba(255,255,255,0.16) 50%, transparent 70%);
+    background-size:280% 100%;
+    background-repeat:no-repeat;
+    background-position:160% 0;
     pointer-events:none;
-    transform:translateX(-160%) skewX(-12deg);
     animation:sweep 7s ease-in-out infinite;
-    will-change:transform;
   }
   .group::after{ animation-delay:1.4s; }
   @keyframes sweep{
-    0%,60%,100%{ transform:translateX(-160%) skewX(-12deg); }
-    80%{ transform:translateX(220%) skewX(-12deg); }
+    0%,60%,100%{ background-position:160% 0; }
+    80%{ background-position:-60% 0; }
   }
 
   .avatar-float{
@@ -316,6 +316,7 @@
   .row:nth-child(3){ animation-delay:2.38s; }
   .row:nth-child(4){ animation-delay:2.46s; }
   .row:nth-child(5){ animation-delay:2.54s; }
+  .row:nth-child(6){ animation-delay:2.62s; }
   @keyframes rowIn{ to{ opacity:1; transform:translateY(0) scale(1); } }
   .row + .row{ border-top:1px solid var(--hair); }
   .row:active{ transform:scale(0.975); background:rgba(255,255,255,0.08); }
@@ -347,11 +348,20 @@
   .icon-site{ background:linear-gradient(155deg, #8fe0ff, #1e8fd6); }
   .icon-insta{ background:linear-gradient(155deg, #ffd576 0%, #ff7a5c 40%, #d33cb0 70%, #7638d8 100%); }
   .icon-tg{ background:linear-gradient(155deg, #7fdcff, #1e96e8); }
+  .icon-tiktok{ background:linear-gradient(155deg, #2d2d3a, #0a0a0f); position:relative; }
+  .icon-tiktok::before{
+    content:'';
+    position:absolute; inset:0; border-radius:inherit;
+    background:linear-gradient(155deg, rgba(37,244,238,0.35), transparent 45%, rgba(254,44,85,0.35));
+    pointer-events:none;
+  }
+  .icon-tiktok svg{ position:relative; z-index:1; }
   .row:hover .icon-phone{ box-shadow:0 4px 12px -3px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3), 0 0 18px rgba(120,232,138,0.55); }
   .row:hover .icon-mail{ box-shadow:0 4px 12px -3px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3), 0 0 18px rgba(127,196,255,0.55); }
   .row:hover .icon-site{ box-shadow:0 4px 12px -3px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3), 0 0 18px rgba(143,224,255,0.55); }
   .row:hover .icon-insta{ box-shadow:0 4px 12px -3px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3), 0 0 18px rgba(211,60,176,0.55); }
   .row:hover .icon-tg{ box-shadow:0 4px 12px -3px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3), 0 0 18px rgba(127,220,255,0.55); }
+  .row:hover .icon-tiktok{ box-shadow:0 4px 12px -3px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3), 0 0 18px rgba(254,44,85,0.45); }
 
   .row-text{ flex:1; min-width:0; }
   .row-title{ font-size:15px; font-weight:600; color:var(--text-0); }
@@ -392,6 +402,30 @@
     50%{ transform:translateY(-6px); }
   }
   @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:0.35; } }
+
+  @media (min-width:820px){
+    .stage{ max-width:480px; padding-top:52px; }
+    .hero{ padding:46px 34px 36px; }
+    .avatar{ width:112px; height:112px; }
+    .avatar-inner span{ font-size:42px; }
+    h1{ font-size:29px; }
+    .desc{ max-width:360px; font-size:15px; }
+    .row{ padding:16px 18px; }
+    .icon-tile{ width:40px; height:40px; }
+    body::before{
+      content:'';
+      position:fixed; inset:0; z-index:0;
+      background:radial-gradient(1200px 800px at 50% 0%, rgba(255,255,255,0.03), transparent 60%);
+      pointer-events:none;
+    }
+  }
+
+  @media (max-width:360px){
+    .stage{ padding:28px 14px 50px; }
+    .hero{ padding:34px 18px 26px; }
+    h1{ font-size:23px; }
+    .desc{ font-size:14px; }
+  }
 
   @media (prefers-reduced-motion: reduce){
     *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
@@ -453,8 +487,8 @@
       </div>
     </div>
     <h1>khusainov<span class="uz">.uz</span></h1>
-    <div class="tagline">Developer &amp; No‑Code Builder</div>
-    <p class="desc">Yuqori unumdorlikka ega no-code platformalar va maxsus veb-yechimlar yarataman. Har bir loyihada tezlik, aniqlik va raqamli transformatsiyani tezlashtirishga e'tibor qarataman.</p>
+    <div class="tagline">Developer &amp; Technology &amp; Coder</div>
+    <p class="desc">Texnologiya, dasturlash va kreativ kontent bilan shug'ullanuvchi ijodkor. Developer va Coder sifatida loyihalar yarataman, AI, SMM, mobilografiya, videomontaj va grafik dizayn orqali g'oyalarni raqamli kontentga aylantiraman.</p>
   </div>
 
   <div class="section-label">Bog'lanish</div>
@@ -470,13 +504,13 @@
       <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
     </a>
 
-    <a class="row" href="mailto:the.xusainov@gmail.com">
+    <a class="row" href="mailto:khusainov.uz@gmail.com">
       <div class="icon-tile icon-mail">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
       </div>
       <div class="row-text">
         <div class="row-title">Email</div>
-        <div class="row-sub">the.xusainov@gmail.com</div>
+        <div class="row-sub">khusainov.uz@gmail.com</div>
       </div>
       <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
     </a>
@@ -510,6 +544,17 @@
       <div class="row-text">
         <div class="row-title">Telegram</div>
         <div class="row-sub">@xusainoff</div>
+      </div>
+      <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </a>
+
+    <a class="row" href="https://tiktok.com/@xusainofff" target="_blank" rel="noopener">
+      <div class="icon-tile icon-tiktok">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82c-.7-.77-1.13-1.76-1.13-2.82H12.4v13.44c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3c.3 0 .59.05.86.13V10.5c-.28-.04-.57-.06-.86-.06-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6V9.05c1.16.83 2.58 1.32 4.11 1.32V7.32c-.99 0-1.9-.32-2.65-.87-.29-.21-.55-.45-.76-.63z"/></svg>
+      </div>
+      <div class="row-text">
+        <div class="row-title">TikTok</div>
+        <div class="row-sub">@xusainofff</div>
       </div>
       <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
     </a>
